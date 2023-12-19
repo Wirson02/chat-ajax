@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-12-2023 a las 15:38:50
+-- Tiempo de generación: 19-12-2023 a las 16:00:04
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -42,8 +42,7 @@ CREATE TABLE `amigos` (
 --
 
 INSERT INTO `amigos` (`id_amigo`, `id_user`, `id_user_amigo`, `fecha`, `estado`) VALUES
-(2, 6, 7, '2023-11-13', 0),
-(6, 10, 7, '2023-11-21', 0);
+(2, 6, 7, '2023-11-13', 1);
 
 -- --------------------------------------------------------
 
@@ -67,9 +66,7 @@ INSERT INTO `chat` (`id_chat`, `user_origen`, `user_destino`, `chat_msg`, `fecha
 (7, 6, 7, 'Hola', '2023-11-13 15:33:35'),
 (8, 7, 6, 'si', '2023-11-13 15:33:59'),
 (9, 6, 7, 'asdasd', '2023-11-13 15:34:11'),
-(10, 6, 7, 'hola', '2023-11-13 15:58:46'),
-(17, 10, 7, 'Hola majo jiji', '2023-11-21 15:14:08'),
-(18, 7, 10, 'y tu quien eres??', '2023-11-21 15:14:23');
+(10, 6, 7, 'hola', '2023-11-13 15:58:46');
 
 -- --------------------------------------------------------
 
@@ -81,6 +78,7 @@ CREATE TABLE `usuarios` (
   `id_user` int(11) NOT NULL,
   `user_username` varchar(15) NOT NULL,
   `user_nom` varchar(50) NOT NULL,
+  `user_ape` varchar(20) NOT NULL,
   `user_pwd` varchar(60) NOT NULL,
   `user_admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -89,23 +87,9 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_user`, `user_username`, `user_nom`, `user_pwd`, `user_admin`) VALUES
-(6, 'admin', 'jorge alcalde', '$2y$10$HVrNn6sh1G67qTnpMfXPo.aIbL83bmd0ZHCqwrJhgyQSCJ5zDQYwO', 1),
-(7, 'wilson2', 'wilson Alfredo', '$2y$10$mdqCbDmBqNcsOrNWa2peHOiVfIC.v/CpPmp9mjyV1aCLMAQgEQ2cK', 0),
-(10, 'jorgeAG', 'jorge Alcalde', '$2y$10$ESfO2V92jiE0zcH/qGgr8uVJyEV7KD.fYqWIaOShDkHzxZ1uOfOLm', 0);
-
---
--- Disparadores `usuarios`
---
-DELIMITER $$
-CREATE TRIGGER `dropUsr` AFTER DELETE ON `usuarios` FOR EACH ROW BEGIN
-    DELETE FROM `peticiones` WHERE id_user = OLD.id_user;
-    DELETE FROM `chat` WHERE user_origen = OLD.id_user OR user_destino = OLD.id_user;
-    DELETE FROM `amigos` WHERE id_user = OLD.id_user OR id_user_amigo = OLD.id_user;
-    
-END
-$$
-DELIMITER ;
+INSERT INTO `usuarios` (`id_user`, `user_username`, `user_nom`, `user_ape`, `user_pwd`, `user_admin`) VALUES
+(6, 'jorge', 'Jorge', 'Alcalde', '$2y$10$HVrNn6sh1G67qTnpMfXPo.aIbL83bmd0ZHCqwrJhgyQSCJ5zDQYwO', 1),
+(7, 'wilson', 'Wilson', 'Alfredo', '$2y$10$mdqCbDmBqNcsOrNWa2peHOiVfIC.v/CpPmp9mjyV1aCLMAQgEQ2cK', 1);
 
 --
 -- Índices para tablas volcadas
@@ -141,13 +125,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `amigos`
 --
 ALTER TABLE `amigos`
-  MODIFY `id_amigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_amigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
